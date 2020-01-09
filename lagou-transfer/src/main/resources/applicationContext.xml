@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+<!--    &lt;!&ndash;开启注解扫描，base-package指定扫描的包路径&ndash;&gt;-->
+<!--    <context:component-scan base-package="com.lagou.edu"/>-->
+
+<!--    &lt;!&ndash;引入外部资源文件&ndash;&gt;-->
+<!--    <context:property-placeholder location="classpath:jdbc.properties"/>-->
+
+    <!--第三方jar包中的bean定义到xml中-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://49.232.146.162:3306/my_batis" />
+        <property name="username" value="root" />
+        <property name="password" value="123456" />
+    </bean>
+
+</beans>
