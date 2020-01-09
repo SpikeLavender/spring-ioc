@@ -15,6 +15,8 @@ public @interface Transactional {
 	//@AliasFor("value")
 	String transactionManager() default "";
 
+	String proxyMethod() default "CGLIB";
+
 
 	//Propagation propagation() default Propagation.REQUIRED;
 

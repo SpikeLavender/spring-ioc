@@ -7,7 +7,7 @@
   <!-- 告诉ContextLoaderListener知道我们用注解的方式启动IoC容器 -->
 <!--  <context-param>-->
 <!--    <param-name>contextClass</param-name>-->
-<!--    <param-value>com.ispring.context.annotation.AnnotationApplicationContext</param-value>-->
+<!--    <param-value>com.ispring.context.application.impl.AnnotationApplicationContext</param-value>-->
 <!--  </context-param>-->
 <!--&lt;!&ndash;  &lt;!&ndash; 配置启动类的全限定类名 &ndash;&gt;&ndash;&gt;-->
 <!--&lt;!&ndash;  <context-param>&ndash;&gt;-->
@@ -16,16 +16,13 @@
 <!--&lt;!&ndash;  </context-param>&ndash;&gt;-->
 <!--  &lt;!&ndash; 使用监听器启动Spring的IoC容器 &ndash;&gt;-->
 
-  <context-param>
-
-    <param-name>contextConfigLocation</param-name>
-
-    <param-value>classpath:applicationContext.xml</param-value>
-
-  </context-param>
-
 <!--  <listener>-->
 <!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
 <!--  </listener>-->
 
+
+  <!-- 使用监听器启动自定义的IoC容器 -->
+  <listener>
+    <listener-class>com.lagou.edu.utils.ContextLoaderListener</listener-class>
+  </listener>
 </web-app>

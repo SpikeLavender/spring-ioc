@@ -2,12 +2,11 @@ package com.lagou.edu.servlet;
 
 import com.ispring.context.annotation.*;
 
-import com.lagou.edu.factory.BeanFactory;
+import com.ispring.context.application.impl.AnnotationApplicationContext;
+import com.ispring.context.application.ApplicationContext;
 import com.lagou.edu.utils.JsonUtils;
 import com.lagou.edu.pojo.Result;
 import com.lagou.edu.service.TransferService;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +18,8 @@ import java.io.IOException;
 /**
  * @author hetengjiao
  */
+@Controller
 @WebServlet(name="transferServlet", urlPatterns = "/transferServlet")
-//@Controller
 public class TransferServlet extends HttpServlet {
 
 
@@ -38,21 +37,16 @@ public class TransferServlet extends HttpServlet {
 //    @Autowired
 //    private TransferService transferService;
 
-    @Autowired
-    private TransferService transferService = (TransferService) BeanFactory.getBean("transferService");
 
-//    @Override
-//    public void init() throws ServletException {
-//        try {
-//            ApplicationContext applicationContext = new AnnotationApplicationContext("com.lagou.edu");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private TransferService transferService;
+
+    @Override
+    public void init() throws ServletException {
+
+        ApplicationContext applicationContext = new AnnotationApplicationContext("com.lagou.edu");
+        transferService = applicationContext.getBean("transferService");
+
+    }
 
 
 
