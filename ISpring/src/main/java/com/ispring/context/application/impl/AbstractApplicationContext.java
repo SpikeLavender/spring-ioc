@@ -8,22 +8,20 @@ public class AbstractApplicationContext implements ApplicationContext {
 
 	private DefaultBeanFactory beanFactory;
 
-	private String packageName;
 
-	public AbstractApplicationContext(String packageName) {
-		this.packageName = packageName;
+//	public AbstractApplicationContext(String packageName) {
+//		this.packageName = packageName;
+//	}
+
+	public void scan(String... packages) {
+		beanFactory = new DefaultBeanFactory();
+		beanFactory.scanBean(packages);
 	}
 
 	public void refresh() {
+
 		// 产生工厂
 		obtainFreshBeanFactory();
-
-		// 实例化工厂中的bean
-		try {
-			createBean();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		// 处理 AOP操作
 		aopHandler();
@@ -31,15 +29,13 @@ public class AbstractApplicationContext implements ApplicationContext {
 
 	private void obtainFreshBeanFactory(){
 		// 实例化 DefaultListableBeanFactory
-		beanFactory = new DefaultBeanFactory(this.packageName);
-		beanFactory.loadBean();
-	}
-
-
-	private void createBean() throws ReflectiveOperationException {
-		beanFactory.createBeanInstance();
-		beanFactory.setBeanAttribute();
-
+		// 实例化工厂中的bean
+		try {
+			beanFactory.createBeanInstance();
+			beanFactory.setBeanAttribute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void aopHandler() {

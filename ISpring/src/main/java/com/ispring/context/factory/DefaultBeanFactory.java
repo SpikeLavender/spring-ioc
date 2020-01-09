@@ -15,30 +15,33 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultBeanFactory {
 	/** Map of bean definition objects, keyed by bean name. */
 	private final Map<String, Object> beanDefinitionMap = new ConcurrentHashMap<>(256);
-	private String packageName;
 
-	private Set<String> fileNames= null;
+	private Set<String> classNames = new HashSet<>();
 
-	public DefaultBeanFactory(String packageName) {
-		this.packageName = packageName;
+	public DefaultBeanFactory() {
+
 	}
 
 	/**
 	 * 根据配置文件扫描待处理的类
 	 */
-	public void loadBean()  {
+	public void scanBean(String... packages)  {
 		//扫描包下面的类是否有注解
-		String path = packageName.replace(".","/");
-		//项目路径
-		URL url = this.getClass().getClassLoader().getResource(path);
-		//判断路径是否存在
-		if(url != null) {
-			File file = new File(url.getPath());
-			//判断是否是目录
-			if (file.isDirectory()) {
-				fileNames = getFiles(file.getAbsolutePath());
+		for (String aPackage : packages) {
+			String path = aPackage.replace(".","/");
+			//项目路径
+			URL url = this.getClass().getClassLoader().getResource(path);
+			//判断路径是否存在
+			if(url != null) {
+				File file = new File(url.getPath());
+				//判断是否是目录
+				if (file.isDirectory()) {
+					//fileNamesMap.put(packageName, getFiles(file.getAbsolutePath()));
+					classNames.addAll(getClassNames(aPackage, file.getAbsolutePath()));
+				}
 			}
 		}
+
 	}
 
 
@@ -48,11 +51,7 @@ public class DefaultBeanFactory {
 	 */
 
 	public void createBeanInstance() throws ReflectiveOperationException {
-		for (String fileName : fileNames) {
-			//String fileName = file2.getName();
-			String split = fileName.split(packageName)[1].split(".class")[0];
-
-			String className = packageName + split.replace("\\", ".");
+		for (String className : classNames) {
 			//System.out.println(className);
 			Class cls = Class.forName(className);
 
@@ -137,7 +136,7 @@ public class DefaultBeanFactory {
 		}
 	}
 
-	private Set<String> getFiles(String path) {
+	private Set<String> getClassNames(String packageName, String path) {
 		Set<String> fileName = new HashSet<>();
 		File file = new File(path);
 		// 取 文件/文件夹
@@ -145,9 +144,11 @@ public class DefaultBeanFactory {
 		if (null != files) {
 			for (File f : files) {
 				if (f.isDirectory()) {
-					fileName.addAll(getFiles(f.getAbsolutePath()));
+					fileName.addAll(getClassNames(packageName, f.getAbsolutePath()));
 				} else if (f.isFile()) {
-					fileName.add(f.getPath());
+					String split = f.getPath().split(packageName)[1].split(".class")[0];
+					String className = packageName + split.replace("\\", ".");
+					fileName.add(className);
 				}
 			}
 		}
