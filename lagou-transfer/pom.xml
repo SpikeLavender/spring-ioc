@@ -85,6 +85,12 @@
       <version>5.2.2.RELEASE</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.5</version>
+    </dependency>
+
     <!--引入Spring web功能-->
 <!--    <dependency>-->
 <!--      <groupId>org.springframework</groupId>-->

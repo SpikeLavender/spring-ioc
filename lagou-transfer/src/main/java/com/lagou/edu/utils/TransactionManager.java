@@ -1,7 +1,10 @@
 package com.lagou.edu.utils;
 
 
-import com.ispring.context.annotation.*;
+
+import com.ispring.context.annotation.Autowired;
+import com.ispring.context.annotation.Component;
+import org.aspectj.lang.annotation.*;
 
 import java.sql.SQLException;
 
@@ -12,27 +15,34 @@ import java.sql.SQLException;
  */
 
 @Component("transactionManager")
+@Aspect
 public class TransactionManager {
 
     @Autowired
     private ConnectionUtils connectionUtils;
 
     // 开启手动事务控制
-    @Before("beginTransaction")
+    @Pointcut("execution(* com.lagou.edu.service.impl.TransferServiceImpl.*(..))")
+    public void pt1() {
+
+    }
+
+
+    @Before("pt1()")
     public void beginTransaction() throws SQLException {
         connectionUtils.getCurrentThreadConn().setAutoCommit(false);
     }
 
 
     // 提交事务
-    @After("commit")
+    @AfterReturning("pt1()")
     public void commit() throws SQLException {
         connectionUtils.getCurrentThreadConn().commit();
     }
 
 
     // 回滚事务
-    @AfterThrowing("rollback")
+    @AfterThrowing("pt1()")
     public void rollback() throws SQLException {
         connectionUtils.getCurrentThreadConn().rollback();
     }

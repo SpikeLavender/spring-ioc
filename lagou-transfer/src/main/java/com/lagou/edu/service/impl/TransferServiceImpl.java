@@ -13,7 +13,7 @@ import com.lagou.edu.service.TransferService;
  */
 
 @Service("transferService")
-@Transactional("transactionManager")
+@Transactional()
 public class TransferServiceImpl implements TransferService {
 
     // 最佳状态
@@ -30,7 +30,7 @@ public class TransferServiceImpl implements TransferService {
         to.setMoney(to.getMoney()+money);
 
         accountDao.updateAccountByCardNo(to);
-        int c = 1/0;
+        //int c = 1/0;
         accountDao.updateAccountByCardNo(from);
         System.out.println("end");
     }

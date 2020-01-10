@@ -1,11 +1,12 @@
 package com.ispring.context.factory;
 
-import com.ispring.context.annotation.After;
-import com.ispring.context.annotation.AfterThrowing;
-import com.ispring.context.annotation.Before;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Before;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -76,7 +77,7 @@ public class ProxyFactory {
 
             // 提交事务
             for (Method declaredMethod : declaredMethods) {
-                if (declaredMethod.isAnnotationPresent(After.class)) {
+                if (declaredMethod.isAnnotationPresent(AfterReturning.class)) {
                     declaredMethod.invoke(tranObj);
                 }
             }

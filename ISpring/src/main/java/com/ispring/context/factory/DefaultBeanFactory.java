@@ -126,6 +126,9 @@ public class DefaultBeanFactory {
 	private void transactionalHandler(String id, Transactional annotation) {
 		if (annotation != null) {
 			String value = annotation.value();
+			value = value.isEmpty() ? "transactionManager" : value;
+			Object o = beanDefinitionMap.get(id);
+
 			Object proxy;
 			if (annotation.proxyMethod().equalsIgnoreCase("JDK")) {
 				proxy = ProxyFactory.getInstance().getJdkProxy(beanDefinitionMap.get(id), beanDefinitionMap.get(value));
