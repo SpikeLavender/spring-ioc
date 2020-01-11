@@ -27,6 +27,8 @@ public abstract class ProxyAspect implements Proxy {
 				result = proxyChain.doProxyChain();
 
 				after(targetClass, targetMethod, methodParams, result);
+			} else {
+				result = proxyChain.doProxyChain();
 			}
 
 		} catch (Throwable e) {

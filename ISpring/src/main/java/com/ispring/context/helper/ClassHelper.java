@@ -1,8 +1,6 @@
 package com.ispring.context.helper;
 
-import com.ispring.context.annotation.Controller;
-import com.ispring.context.annotation.Service;
-import com.ispring.context.annotation.Transactional;
+import com.ispring.context.annotation.*;
 import com.ispring.context.util.ClassUtil;
 import com.ispring.context.util.PropertiesUtil;
 
@@ -28,12 +26,17 @@ public class ClassHelper {
 
 	public static Set<Class<?>> loadClassByAnnotation(Class<? extends Annotation> annotation) {
 		Set<Class<?>> classes = new HashSet<>();
+
 		if (CLASS_LIST != null && CLASS_LIST.size() > 0) {
-			for (Class<?> cls : CLASS_LIST) {
-				if (cls.isAnnotationPresent(annotation)) {
-					classes.add(cls);
+
+				for (Class<?> cls : CLASS_LIST) {
+					if (!cls.isAnnotationPresent(Aspect.class)
+							&& annotation.equals(AspectAll.class)) {
+						classes.add(cls);
+					}else if (cls.isAnnotationPresent(annotation)) {
+						classes.add(cls);
+					}
 				}
-			}
 		}
 		return classes;
 	}

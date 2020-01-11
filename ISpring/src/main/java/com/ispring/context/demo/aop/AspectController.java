@@ -1,13 +1,11 @@
-package com.ispring.context.aop;
+package com.ispring.context.demo.aop;
 
 import com.ispring.context.annotation.Aspect;
-import com.ispring.context.annotation.Controller;
 import com.ispring.context.core.ProxyAspect;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.atomic.AtomicInteger;
 
-@Aspect(Controller.class)
+@Aspect
 public class AspectController extends ProxyAspect {
 
 	@Override

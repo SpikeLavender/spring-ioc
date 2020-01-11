@@ -1,5 +1,7 @@
 package com.ispring.context.helper;
 
+import com.ispring.context.annotation.Autowired;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -14,7 +16,17 @@ public class IoCHelper {
 					Field[] fields = cls.getDeclaredFields();
 					if (fields.length > 0) {
 						for (Field field : fields) {
-//							if (cls.isAnnotationPresent())
+							if (field.isAnnotationPresent(Autowired.class)) {
+								//cls.getAnnotation(Autowired.class).required()
+								String name = field.getType().getName();
+								field.setAccessible(true);
+								try {
+									field.set(instance, map.get(Class.forName(name)));
+									BeanHelper.putBean(cls, instance);
+								} catch (IllegalAccessException | ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+							}
 						}
 					}
 				}

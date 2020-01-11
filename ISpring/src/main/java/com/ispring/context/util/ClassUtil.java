@@ -62,7 +62,7 @@ public class ClassUtil {
 					}
 					String subPackageName = fileName;
 					if (StringUtils.isNotEmpty(subPackageName)) {
-						subPackageName = packageName + "/" + subPackageName;
+						subPackageName = packageName + "." + subPackageName;
 					}
 					addClassReceive(classes, subPackagePath, subPackageName);
 				}
