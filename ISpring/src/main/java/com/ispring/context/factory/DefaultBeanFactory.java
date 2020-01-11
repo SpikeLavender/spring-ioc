@@ -123,6 +123,11 @@ public class DefaultBeanFactory {
 		}
 	}
 
+
+	private void initializeBean(String id, final Object bean) {
+
+	}
+
 	private void transactionalHandler(String id, Transactional annotation) {
 		if (annotation != null) {
 			String value = annotation.value();
